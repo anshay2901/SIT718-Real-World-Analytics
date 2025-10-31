@@ -47,14 +47,72 @@ equationXY <- function(x, y) {
 
 # Custom function to calculate arithmetic mean using sum() and length()
 calculateMean <- function(numbers) {
+  # validate input
+  if (!is.numeric(numbers)) stop("Input must be numeric.")
+  if (length(numbers) == 0) stop("Input vector is empty.")
   
-  if (!is.numeric(numbers)) stop("Input must be numeric.")  # validate input
+  total_sum <- sum(numbers, na.rm = TRUE)   # Guard against NA inputs
+  count <- length(numbers)  
   
-  if (length(numbers) == 0) stop("Input vector is empty.")  # guard: no data
+  # mean = sum / count
+  total_sum / count                         
+}
+
+# Custom function to calculate median
+calcMedian <- function(num_values) {
+  # validate input
+  if (!is.numeric(num_values)) stop("Input must be numeric.")
+  if (length(num_values) == 0) stop("Input vector is empty.")
   
-  total_sum <- sum(numbers, na.rm = TRUE)   # total of all values
-  count <- length(numbers)                  # number of values
-  total_sum / count                         # mean = sum / count
+  # Store before computing the middle value
+  num_values <- sort(num_values)  # <--- add this line right after Step 1
+  
+  # Step 3: find the middle based on even/odd length
+  n <- length(num_values)
+  if (n %% 2 != 0) {
+    # Odd count: return the single middle value
+    return(num_values[(n + 1) / 2])
+  } else {
+    # Even count: average of the two middle values
+    mid1 <- n / 2
+    mid2 <- mid1 + 1
+    return((num_values[mid1] + num_values[mid2]) / 2)
+  }
+}
+
+# Custom function to calculate the mode (numeric) (most frequent value)
+calcModeNumeric <- function(values) {
+  
+  # Check the input 
+  if (missing(values)) stop("Please provide a numeric vector.")
+  if (!is.numeric(values)) stop("The input must be numeric.")
+  if (length(values) == 0) stop("The input vector is empty.")
+  if (all(is.na(values))) stop("All values are NA. Cannot calculate mode.")
+  
+  # Remove missing values
+  values <- values[!is.na(values)]
+  
+  # variables to track counts
+  mode_values <- c()      
+  highest_count <- 0      
+
+  for (i in 1:length(values)) {
+    current_value <- values[i]
+    count_value <- sum(values == current_value)
+    
+    # If a new highest count is found, reset mode_values
+    if (count_value > highest_count) {
+      highest_count <- count_value
+      mode_values <- current_value
+    }
+    # If another value has the same count, add it (avoid duplicates)
+    else if (count_value == highest_count && !(current_value %in% mode_values)) {
+      mode_values <- c(mode_values, current_value)
+    }
+  }
+  
+ 
+  return(mode_values)
 }
 
 
