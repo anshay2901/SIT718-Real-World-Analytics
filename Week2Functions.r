@@ -42,6 +42,19 @@ equationXY <- function(x, y) {
   }
   
   ((x^2)+(y^2))/(x+y)
-  
-  
 }
+
+
+# Custom function to calculate arithmetic mean using sum() and length()
+calculateMean <- function(numbers) {
+  
+  if (!is.numeric(numbers)) stop("Input must be numeric.")  # validate input
+  
+  if (length(numbers) == 0) stop("Input vector is empty.")  # guard: no data
+  
+  total_sum <- sum(numbers, na.rm = TRUE)   # total of all values
+  count <- length(numbers)                  # number of values
+  total_sum / count                         # mean = sum / count
+}
+
+
