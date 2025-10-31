@@ -116,3 +116,23 @@ calcModeNumeric <- function(values) {
 }
 
 
+# Geometric Mean Function
+geometricMean <- function(x, na.rm = TRUE) {
+  # validate input
+  if (!is.numeric(x)) stop("Input must be numeric.")
+  if (length(x) == 0) stop("Input vector is empty.")
+   
+  # remove NA values if Na.rm = TRUE
+  if (na.rm) x <- x[!is.na(x)]
+  if (length(x) == 0) stop("All values are NA after removing missing values.")
+  
+  # check for non-positive values (log() undefined for <= 0)
+  if (any(x <= 0)) {
+    warning("Geometric mean is undefined for non-positive values. Returning NA.")
+    return(NA_real_)
+  }
+  
+  # compute geometric mean safely
+  return(exp(mean(log(x))))
+}
+
