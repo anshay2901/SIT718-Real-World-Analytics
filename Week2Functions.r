@@ -136,7 +136,9 @@ geometricMean <- function(x, na.rm = TRUE) {
   return(exp(mean(log(x))))
 }
 
+# Harmonic Mean Function
 HM <- function(x) {
+  # validate input
   if (!is.numeric(x)) stop("Input must be numeric.")
   if (any(x <= 0, na.rm = TRUE)) return(NA)
   length(x) / sum(1/x)
