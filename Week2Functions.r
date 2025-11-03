@@ -166,5 +166,5 @@ PM <- function(x, p, na.rm = TRUE) {
   if (p < 0 && any(x <= 0)) stop("For p < 0, all x must be > 0.")
   
   # General Power Mean
-  return(mean(x^p))^(1/p)
+  (mean(x^p))^{1/p}
 }
