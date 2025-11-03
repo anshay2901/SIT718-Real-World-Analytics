@@ -140,8 +140,31 @@ geometricMean <- function(x, na.rm = TRUE) {
 HM <- function(x) {
   # validate input
   if (!is.numeric(x)) stop("Input must be numeric.")
+  if (length(x) == 0) stop("Input vector is empty.")
   if (any(x <= 0, na.rm = TRUE)) return(NA)
   length(x) / sum(1/x)
 }
 
-
+# Power Mean Function
+PM <- function(x, p, na.rm = TRUE) {
+  # Validate Inputs
+  if(!is.numeric(x)) stop("x must be numeric.")
+  if(!is.numeric(p) || length(p) != 1) stop("p must be a single number")
+  if(na.rm) x <- x[!is.na(x)]
+  if(length(x) == 0) stop("x is empty after removing NAs")
+  
+  # limits: p = +inf or -inf
+  if(is.infinite(p)) return(if(p>0) max(x) else min(x))
+  
+  # If GM
+  if(p == 0) {
+    if(any(x <= 0)) stop("Geometric Mean needs all x > 0.")
+    return(exp(mean(log(x))))
+  }
+  
+  # For - p, also require x > 0
+  if (p < 0 && any(x <= 0)) stop("For p < 0, all x must be > 0.")
+  
+  # General Power Mean
+  return(mean(x^p))^(1/p)
+}
