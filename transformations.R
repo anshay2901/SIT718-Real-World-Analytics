@@ -62,12 +62,28 @@ percentile_scale <- function(x) {
 }
 
 # visual test (apply any above method)
-x <- c(10, 12, 14, 20, 30, 40)
-
-# Before
-par(mfrow=c(1,2))  # two plots in one row
-plot(x, main="Before", col="red", cex=2, pch=16)
-
-# After (use min_max_scale/z_score/scaled_normal/percentile_scale)
-z <- rank(x)
-plot(z, main="After", col="blue", cex=2, pch=16)
+plot_transform <- function(x, f, main_before = "Before", main_after = "After") {
+  # Input validation
+  if (!is.numeric(x)) stop("x must be numeric!")
+  if (!is.function(f)) stop("f must be a function!")
+  if (length(x) < 2) stop("x must have at least 2 values!")
+  if (any(is.na(x))) stop("x contains NA values!")
+  
+  # Apply transformation
+  transformed <- f(x)
+  
+  # Set up side-by-side plots
+  par(mfrow = c(1, 2))
+  
+  # Before plot
+  plot(x,main = main_before,col = "red",pch = 16,cex = 1.5)
+  
+  # After plot
+  plot(transformed,main = main_after,col = "blue",pch = 16,cex = 1.5)
+  
+  # Reset plotting window
+  par(mfrow = c(1, 1))
+  
+  # Return transformed data
+  return(transformed)
+}
