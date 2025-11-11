@@ -1,13 +1,21 @@
 ## Negation
 
-# Creating raw i/p
-rawData = runif(100, 10, 50)
-# Visualisation
-plot(rawData, main = "Before Negation", col = "red", cex = 2, pch = 42)
-# Inverting
-transformedData = 50-rawData+10
-# Visualisation
-plot(transformedData, main = "After Negation", col = "red", cex = 2, pch = 42)
+# # Creating raw i/p
+# rawData = runif(100, 10, 50)
+# # Visualisation
+# plot(rawData, main = "Before Negation", col = "red", cex = 2, pch = 42)
+# # Inverting
+# transformedData = 50-rawData+10
+# # Visualisation
+# plot(transformedData, main = "After Negation", col = "red", cex = 2, pch = 42)
+
+negation <- function(x) {
+  if (!is.numeric(x)) stop("Input must be numeric.")
+  if (length(x) < 2) stop("Vector must contain at least 2 values.")
+  if (any(is.na(x))) stop("Vector contains NA values.")
+  
+  max(x, na.rm = TRUE) + min(x, na.rm = TRUE) - x
+}
 
 ## Normalisation
 
